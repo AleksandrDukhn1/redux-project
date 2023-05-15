@@ -4,16 +4,33 @@ import CreateRecipe from './create-recipe/CreateRecipe';
 import Header from './header/Header';
 import RecipeItem from './recipe-item/RecipeItem';
 import User from './user/User';
+import {useState} from 'react';
 
 
 function App() {
 
-  const {isLoading, data} = useGetRecipesQuery(null)
+  const [search, setSearch] = useState('')
+  const [isSearch, setIsSearch] = useState('')
+  const {isLoading, data} = useGetRecipesQuery(isSearch, {})
+
+  const handleSearch = () => {
+    setIsSearch(search)
+  }
+
   return (
     <section>
       <Header />
      {/* <User /> */}
      <CreateRecipe />
+     <div style={{padding: 10}}>
+      <p>If you wanna find:</p>
+      <input 
+     type='search' 
+     value={search} 
+     onChange={e => setSearch(e.target.value)}
+     placeholder='Enter search' />
+     <button onClick={handleSearch}>Search</button>
+     </div>
     <div>
       {isLoading ? (
       <div>Loading...</div>
